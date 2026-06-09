@@ -45,3 +45,8 @@ const data = [
         "price": 100
     }
 ]
+
+function getAllMovies() {
+    return data;
+}
+export { getAllMovies };
