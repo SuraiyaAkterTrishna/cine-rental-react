@@ -12,3 +12,7 @@
     padding-right: 1.25rem;
     width: 100%;
 }
+
+.dark {
+  @apply bg-[#171923] text-white
+}

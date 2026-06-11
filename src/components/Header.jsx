@@ -1,14 +1,17 @@
 import logo from "../assets/logo.svg";
 import ring from "../assets/ring.svg";
 import moon from "../assets/icons/moon.svg";
+import sun from "../assets/icons/sun.svg";
 import shoppingCart from "../assets/shopping-cart.svg";
 import { useContext, useState } from "react";
 import CartDetails from "./cine/CartDetails";
-import { MovieContext } from "../context/MovieContext";
+import { MovieContext, ThemeContext } from "../context/MovieContext";
 
 export default function Header() {
   const [showCart, setShowCart] = useState(false);
-  const {cartData} = useContext(MovieContext);
+  const {state} = useContext(MovieContext);
+
+  const {darkMode, setDarkMode} = useContext(ThemeContext);
 
   function handleCartShow(){
     setShowCart(true);
@@ -34,8 +37,9 @@ export default function Header() {
             <a
               className="bg-primary/20 dark:bg-primary/7 rounded-lg backdrop-blur-[2px] p-1 inline-block"
               href="#"
+              onClick={() => setDarkMode(!darkMode)}
             >
-              <img src={moon} width="24" height="24" alt="" />
+              <img src={darkMode ? sun : moon} width="24" height="24" alt="" />
             </a>
           </li>
           <li>
@@ -46,8 +50,8 @@ export default function Header() {
             >
               <img src={shoppingCart} width="24" height="24" alt="" />
               {
-                cartData.length > 0 && <span className="bg-[#D42967] text-white rounded-full w-5 h-5 flex items-center justify-center text-xs absolute -top-1 -right-1">
-                  {cartData.length}
+                state.cartData.length > 0 && <span className="bg-[#D42967] text-white rounded-full w-5 h-5 flex items-center justify-center text-xs absolute -top-1 -right-1">
+                  {state.cartData.length}
                 </span>
               }
             </a>

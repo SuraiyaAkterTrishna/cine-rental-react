@@ -1,35 +1,33 @@
 import { useContext } from "react";
-import { MovieContext } from "../../context/MovieContext";
+import { MovieContext, ThemeContext } from "../../context/MovieContext";
 import deleteIcon from "../../assets/delete.svg";
 import { getImgUrl } from "../../utils/cine-utility";
 import checkoutIcon from "../../assets/icons/checkout.svg";
 
 export default function CartDetails({ onClose }) {
-  const { cartData, setCartData } = useContext(MovieContext);
+  const { state, dispatch } = useContext(MovieContext);
+  const {darkMode} = useContext(ThemeContext);
   function handleDeleteCart(event, itemId) {
     event.preventDefault();
-    const filteredItem = cartData.filter((item) => {
-      return item.id !== itemId;
-    });
-    setCartData(filteredItem);
+    dispatch({ type: "REMOVE_FROM_CART", payload: { id: itemId } });
   }
 
   return (
-    <div className="fixed top-0 left-0 w-screen h-screen z-50 bg-black/60 backdrop-blur-sm">
+    <div className="fixed top-0 left-0 w-screen h-screen z-50 backdrop-blur-sm">
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-105 sm:max-w-150 lg:max-w-197.5 p-4 max-h-[90vh] overflow-auto">
-        <div className="bg-white shadow-md rounded-2xl overflow-hidden p-5 md:p-9">
+        <div className={`h-full w-full ${darkMode ? "dark" : ""} bg-white shadow-md rounded-2xl overflow-hidden  p-5 md:p-9`}>
           <h2 className="text-2xl lg:text-[30px] mb-10 font-bold">
             Your Carts
           </h2>
           <div className="space-y-8 lg:space-y-12 max-h-112.5 overflow-auto mb-10 lg:mb-14">
             {
-            cartData.length === 0 ? 
+            state.cartData.length === 0 ? 
             (
               <p className="text-center text-3xl text-[#575A6E]">Your cart is empty!</p>
             ) 
             : 
             (
-              cartData.map((item) => (
+              state.cartData.map((item) => (
                 <div key={item.id} className="grid grid-cols-[1fr_auto] gap-4">
                   <div className="flex items-center gap-4">
                     <img
